@@ -1,6 +1,7 @@
 from collections import UserDict
 
 class Field:
+    """Base class for record fields."""
     def __init__(self, value):
         self.value = value
 
@@ -8,24 +9,31 @@ class Field:
         return str(self.value)
 
 class Name(Field):
-		pass
+    """Class for storing contact name. Required field."""
+    pass
 
 class Phone(Field):
+    """Class for storing phone number with validation (10 digits)."""
     def __init__(self, value):
         if not (isinstance(value, str) and value.isdigit() and len(value) == 10):
              raise ValueError("Phone number must be 10 digits")
         super().__init__(value)
 
 class Record:
+    """
+    Class for storing contact information including name and list of phones.
+    """
     def __init__(self, name):
         self.name = Name(name)
         self.phones = []
 
     def add_phone(self, phone_number: str):
+        """Add phone to the record."""
         phone = Phone(phone_number)
         self.phones.append(phone)
     
     def remove_phone(self, phone_number: str):
+        """Remove phone from the record."""
         for phone in self.phones:
             if phone.value == phone_number:
                 self.phones.remove(phone)
@@ -33,6 +41,7 @@ class Record:
         raise ValueError("Phone number not found")
 
     def edit_phone(self, old_phone: str, new_phone: str):
+        """Edit phone number in the record."""
         for phone in self.phones:
             if phone.value == old_phone:
                 # Validate new phone before replacing
@@ -42,6 +51,7 @@ class Record:
         raise ValueError("Old phone number not found")
 
     def find_phone(self, phone_number: str):
+        """Find phone object by number."""
         for phone in self.phones:
             if phone.value == phone_number:
                 return phone
@@ -51,13 +61,20 @@ class Record:
         return f"Contact name: {self.name.value}, phones: {'; '.join(p.value for p in self.phones)}"
 
 class AddressBook(UserDict):
+    """
+    Class for storing and managing records.
+    Inherits from UserDict.
+    """
     def add_record(self, record: Record):
+        """Add record to address book."""
         self.data[record.name.value] = record
 
     def find(self, name: str):
+        """Find record by name."""
         return self.data.get(name)
     
     def delete(self, name: str):
+        """Delete record by name."""
         del self.data[name]
 
 
