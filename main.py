@@ -77,6 +77,17 @@ class AddressBook(UserDict):
         """Delete record by name."""
         del self.data[name]
 
+    def __str__(self):
+        """Pretty print for AddressBook."""
+        if not self.data:
+            return "Address book is empty"
+        
+        lines = ["Address Book:", "-" * 40]
+        for record in self.data.values():
+            lines.append(str(record))
+        lines.append("-" * 40)
+        return "\n".join(lines)
+
 
 book = AddressBook()
 
