@@ -82,7 +82,7 @@ class AddressBook(UserDict):
         if not self.data:
             return "Address book is empty"
         
-        lines = ["Contacts Book:", "-" * 40]
+        lines = ["Address Book:", "-" * 40]
         for record in self.data.values():
             lines.append(str(record))
         lines.append("-" * 40)
